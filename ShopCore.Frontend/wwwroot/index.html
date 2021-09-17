@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <title>ShopCore</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="scripts/sessionControl.js"></script>
+    <script src="scripts/cartControl.js"></script>
+    <script src="scripts/mobileMenu.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/stylemain.css">
+    <link rel="stylesheet" type="text/css" href="css/styleIndex.css">
+</head>
+<body>
+    <ul class="topnav" id="myTopnav">
+        <li><img id="logo" src="https://localhost:44344/Images/Basic/logo.png" /></li>
+        <li><a class="active" href="index.html">HOME</a></li>
+        <li><a href="products.html">BROWSE</a></li>
+        <li><a href="profile.html">PROFILE</a></li>
+        <li><a href="cart.html">CART</a></li>
+        <li class="icon">
+            <a style="font-size:15px;" onclick="MenuControl()"><img src="https://localhost:44344/Images/Basic/iconBar.png" /></a>
+        </li>
+    </ul>
+   
+    <div id="logoi">
+        <center><img id="hotIcon" src="https://localhost:44344/Images/Basic/hoticon.png"><br>
+        <img class="hot" src="" />
+        <img class="hot" src="" />
+        <img class="hot" src="" /></center>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        //if (localStorage.getItem("cart") === null)
+        //    GetCart();
+        var hots = document.getElementsByClassName("hot");
+        $.ajax({
+            type: "GET",
+            accepts: "application/json",
+            url: "https://localhost:44344/api/homepage",
+            contentType: "application/json",
+            success: function (result) {
+                var parsed = JSON.parse(result);
+
+                for (var i = 0; i < 3; i++) {
+                    if (parsed.images[i] != undefined) {
+                        hots[i].src = "https://localhost:44344" + parsed.images[i];
+                        hots[i].id = parsed.ids[i];
+                        hots[i].addEventListener("click", function () { SetLookup(this.id); })
+                    }
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                if (xhr.responseText != null) {
+                    var err = JSON.parse(xhr.responseText).ERROR.errors[0].errorMessage;
+                    alert(err);
+                } else {
+                    ResendHotRequest();
+                }
+            }
+        });
+    });
+
+    function ResendHotRequest() {
+        var hots = document.getElementsByClassName("hot");
+        $.ajax({
+            type: "GET",
+            accepts: "application/json",
+            url: "https://localhost:44344/api/homepage",
+            contentType: "application/json",
+            success: function (result) {
+                var parsed = JSON.parse(result);
+
+                for (var i = 0; i < 3; i++) {
+                    if (parsed.images[i] != undefined) {
+                        hots[i].src = "https://localhost:44344" + parsed.images[i];
+                        hots[i].id = parsed.ids[i];
+                        hots[i].addEventListener("click", function () { SetLookup(this.id); })
+                    }
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                if (xhr.responseText != null) {
+                    var err = JSON.parse(xhr.responseText).ERROR.errors[0].errorMessage;
+                    alert(err);
+                } else {
+                    ResendHotRequest();
+                }
+            }
+        });
+    }
+
+    function SetLookup(id) {
+        SetItem("lookingProduct", id);
+        $.ajax({
+            type: "POST",
+            accepts: "application/json",
+            url: "https://localhost:44344/api/homepage",
+            contentType: "application/json",
+            data: id,
+            success: function (result) {
+                window.location.replace("productDetails.html");
+            },
+            error: function () {
+                alert("NE VALJA");
+            }
+        });
+    }
+</script>

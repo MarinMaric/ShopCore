@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ShopCore</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="scripts/sessionControl.js"></script>
+    <script src="scripts/mobileMenu.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/stylemain.css">
+    <link rel="stylesheet" type="text/css" href="css/styleprofile.css">
+</head>
+<body>
+    <ul class="topnav" id="myTopnav">
+        <li><img id="logo" src="https://localhost:44344/Images/Basic/logo.png" /></li>
+        <li><a class="active" href="index.html">HOME</a></li>
+        <li><a href="products.html">BROWSE</a></li>
+        <li><a href="profile.html">PROFILE</a></li>
+        <li><a href="cart.html">CART</a></li>
+        <li class="icon">
+            <a style="font-size:15px;" onclick="MenuControl()"><img src="https://localhost:44344/Images/Basic/iconBar.png" /></a>
+        </li>
+    </ul>
+
+    <div id="profileWrapper">
+        <div id="avatar">
+            <center><img id="avatarimg" src=""></center>
+        </div>
+        <div id="data">
+            <p id="username"><b>Username:</b> </p>
+            <p id="first"><b>First Name:</b> </p>
+            <p id="last"><b>Last Name:</b> </p>
+            <p id="mail"><b>Email:</b> </p>
+
+            <form id="editForm" method="post" enctype="multipart/form-data" action="https://localhost:44344/api/user/update">
+                <input type="hidden" name="ogUsername" id="oguser"><br>
+                <p>
+                    <label for="usernameinput"><b>Username: </b></label>
+                    <input type="text" name="username" id="usernameinput"><br>
+                </p>
+                <p>
+                    <label for="firstinput"><b>First Name: </b></label>
+                    <input type="text" name="firstName" id="firstinput"><br>
+                </p>
+                <p>
+                    <label for="lastinput"><b>Last Name: </b></label>
+                    <input type="text" name="lastName" id="lastinput"><br>
+                </p>
+                <p>
+                    <label for="mailinput"><b>Email: </b></label>
+                    <input type="email" name="email" id="mailinput"><br>
+                </p>
+                <p>
+                    <label for="imginput"><b>Image: </b></label>
+                    <input type="file" name="image" id="imginput"><br>
+                </p>
+                <p>
+                    <label for="passinput"><b>Password: </b></label>
+                    <input type="password" name="password" id="passinput" required><br>
+                </p>
+                <p>
+                    <label for="confirminput"><b>Confirm Password: </b></label>
+                    <input type="password" name="confirmPassword" id="confirminput" required><br>
+                </p>
+                <br>
+                <input type="submit" value="Submit" />
+            </form>
+            <br><br>
+            <button id="cancel" onclick="CancelEditing()">Cancel</button>
+            <button onclick="ChangeLayout()">Edit Profile</button>
+            <button onclick="Logout()">Logout</button>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var editForm;
+    var parsed;
+    
+    $(document).ready(function () {
+        editForm = $("#editForm");
+        $(editForm).hide();
+        $("#cancel").hide();
+        var id;
+        if (CheckItem("activeUser"))
+            id = GetItem("activeUser");
+        else window.location.replace("login.html");
+        $.ajax({
+            type: "GET",
+            accepts: "application/json",
+            url: "https://localhost:44344/api/user/" + id,
+            contentType: "application/json",
+            data: id,
+            success: function (result) {
+                parsed = JSON.parse(result);
+
+                $("#avatarimg").attr("src", "https://localhost:44344" + parsed.Image);
+                $("#username").append(parsed.Username);
+                $("#first").append(parsed.FirstName);
+                $("#last").append(parsed.LastName);
+                $("#mail").append(parsed.Email);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                var err = JSON.parse(xhr.responseText).ERROR.errors[0].errorMessage;
+                alert(err);
+            }
+        });
+    });
+
+    var data;
+
+    function ChangeLayout() {
+        data = $("#data").children();
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].style.visibility = "visible") {
+                if (data[i].id !== "cancel" || data[i].id!=="submit")
+                    $(data[i]).hide();
+            }
+        }
+        editForm.show();
+        $("#submit").show();
+        $("#cancel").show();
+        $("#oguser").val(parsed.Username);
+        $("#usernameinput").val(parsed.Username);
+        $("#firstinput").val(parsed.FirstName);
+        $("#lastinput").val(parsed.LastName);
+        $("#mailinput").val(parsed.Email);
+    }
+
+    function CancelEditing() {
+        data = $("#data").children();
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].style.visibility = "visible") {
+                if (data[i].id !== "cancel" || data[i].id !== "submit")
+                    $(data[i]).show();
+            }
+        }
+        editForm.hide();
+        $("#submit").hide();
+        $("#cancel").hide();
+    }
+
+    function Logout() {
+        ClearSession();
+
+        window.location.replace("login.html");
+    }
+</script>

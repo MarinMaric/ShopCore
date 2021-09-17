@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+</head>
+<body>
+
+    
+    <input type="number" id="id" />
+    <button onClick="FindProduct()">SEARCH</button>
+        
+    <img id="productPic" src="" />
+
+    <form id="productForm" method="post" enctype="multipart/form-data" action="api/product">
+        <input type="text" name="Name"/>
+        <!--<label for="dev">Developer:</label>
+        <input type="text" id="dev" name="Developer" required><br />
+        <label for="pub">Publisher:</label>
+        <input type="text" id="pub" name="Publisher" required><br /><br />
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="Price" required>
+        <label for="description">Description:</label>
+        <textarea id="description" name="Description" required></textarea>
+        <label for="date">Release Date</label>
+        <input type="date" id="date" name="ReleaseDate" required>-->
+
+        <input type="file" name="image" id="image" accept="image/*">
+        <input type="submit" value="Create"/>
+    </form>
+</body>
+</html>
+<script>
+    function FindProduct() {
+        var id = document.getElementById("id").value;
+        $.ajax({
+            type: "GET",
+            accepts: "application/json",
+            url: "api/product" + "/" + id,
+            contentType: "application/json",
+            data: JSON.stringify(id),
+            success: function (result) {
+                var parsed = JSON.parse(result);
+                document.getElementById("productPic").src= parsed.Image;
+                alert(parsed.Name);
+            },
+            error: function () {
+                alert("NE VALJA!");
+            }
+        });
+    }
+    function UploadProduct() {
+        var product = {
+            Name: document.getElementById("name").value,
+            Developer: document.getElementById("dev").value,
+            Publisher: document.getElementById("pub").value,
+            Price: document.getElementById("price").value,
+            Description: document.getElementById("description").value,
+            ReleaseDate: document.getElementById("date").value,
+        };
+
+        var formdata = new FormData(); //FormData object
+        formdata.append("product", JSON.stringify(product));
+        var fileInput = document.getElementById("image");
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < fileInput.files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+
+        $.ajax({
+            type: "POST",
+            accepts: "application/json",
+            url: "api/product",
+            contentType: false,
+            data: JSON.stringify(formdata),
+            success: function (result) {
+                alert(JSON.parse(result).Developer);
+            },
+            error: function () {
+                alert("NE VALJA");
+            }
+        });
+    }
+</script>

@@ -1,0 +1,48 @@
+﻿body {
+    padding: 0px;
+    margin: 0px;
+    background-color: #303030;
+}
+#gamePanel{
+    position:absolute;
+    top: 0px;
+    width:100%;
+    height:auto;
+    padding:0px;
+    margin:0px;
+}
+
+#banner{
+    width:100%;
+    padding:0px;
+    margin:0px;
+}
+
+h1, p {
+    color: white;
+}
+
+#title {
+    padding: 5%;
+}
+
+#details {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    background-color: #101010;
+}
+
+#description {
+    font-size: 25px;
+    padding: 5%;
+}
+
+#developer,#publisher{
+    padding-left:5%;
+}
+
+#date{
+   float: right;
+   padding-right:5%;
+}

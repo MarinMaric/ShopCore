@@ -1,0 +1,51 @@
+﻿#profileWrapper {
+    position: absolute;
+    top: 10%;
+    left: 0px;
+    width: 100%;
+    height: auto;
+    background-color: #303030;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#avatar {
+    width: 50%;
+    height: auto;
+    float: left;
+    background-color: #303030;
+}
+
+#data {
+    width: 50%;
+    height: auto;
+    float: right;
+    padding-top:2%;
+}
+
+#data>p{
+    color:white;
+}
+
+#avatarimg{
+    padding: 5%;
+    width:50%;
+    height:50%;
+}
+
+form {
+    display: table;
+    color:white;
+}
+
+p {
+    display: table-row;
+}
+
+label {
+    display: table-cell;
+}
+
+input {
+    display: table-cell;
+}

@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ShopCore</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="scripts/sessionControl.js"></script>
+    <script src="scripts/cartControl.js"></script>
+    <script src="scripts/mobileMenu.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/stylemain.css">
+    <link rel="stylesheet" type="text/css" href="css/stylesearch.css">
+</head>
+<body>
+    <ul class="topnav" id="myTopnav">
+        <li><img id="logo" src="https://localhost:44344/Images/Basic/logo.png" /></li>
+        <li><a class="active" href="index.html">HOME</a></li>
+        <li><a href="products.html">BROWSE</a></li>
+        <li><a href="profile.html">PROFILE</a></li>
+        <li><a href="cart.html">CART</a></li>
+        <li class="icon">
+            <a style="font-size:15px;" onclick="MenuControl()"><img src="https://localhost:44344/Images/Basic/iconBar.png" /></a>
+        </li>
+    </ul>
+    <div id="search">
+        <center id="searchCenter">
+            <p>List of items purchased in this order.</p>
+        </center>
+    </div>
+
+    <table id="results"></table>
+</body>
+</html>
+<script>
+    var results;
+    var edit = false;
+
+    $(document).ready(function () {
+        tableRef = document.getElementById("results");
+        var id = GetItem("lookingOrder");
+
+        $.ajax({
+            type: "GET",
+            accepts: "application/json",
+            url: "https://localhost:44344/api/order/" + id,
+            contentType: "application/json",
+            data: id,
+            success: function (result) {
+                var parsed = JSON.parse(result);
+                ShowResults(parsed);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                var err = JSON.parse(xhr.responseText).ERROR.errors[0].errorMessage;
+                alert(err);
+            }
+        });
+    });
+
+    function SetLookUp(id) {
+        SetItem("lookingProduct", id);
+        window.location.replace("productDetails.html");
+    }
+
+    function ShowResults(parsed) {
+        for (var i = 0; i < parsed.length; i++) {
+            var newRow = tableRef.insertRow(tableRef.rows.length);
+            if (i % 2 == 0)
+                newRow.classList.add("second");
+            else newRow.classList.add("first");
+            var newCell = newRow.insertCell(0);
+            newCell.classList.add("pic");
+            var img = new Image();
+            img.src = "https://localhost:44344" + parsed[i].Image;
+            newCell.appendChild(img);
+
+            img.id = parsed[i].ProductID;
+            img.addEventListener('click', function (e) {
+                edit = false;
+                SetLookUp(this.id);
+            });
+
+            var newCell2 = newRow.insertCell(0);
+
+            var newText = document.createTextNode(parsed[i].Name);
+            newCell2.appendChild(newText);
+            parsedG = parsed;
+            newCell2G = newCell2;
+        }
+    }
+
+    function AddAdvanced(parsed) {
+        for (var i = 0; i < parsed.length; i++) {
+            var br = document.createElement("BR");
+            var newCell2 = tableRef.rows[i].cells[0];
+            var btn = document.createElement("BUTTON");
+            btn.innerHTML = "DELETE";
+            btn.id = parsed[i].ProductID;
+            btn.addEventListener('click', function () {
+                RemoveFromCart(this.id);
+            });
+            btn.classList.add("advanced");
+
+            document.body.appendChild(br);
+            document.body.appendChild(btn);
+            newCell2.appendChild(br);
+            newCell2.appendChild(btn);
+        }
+    }
+</script>

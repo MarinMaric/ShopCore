@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+</head>
+<body>
+    <form name="regForm" onsubmit="Register()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required><br />
+        <label for="password">Password:</label>
+        <input type="password" id="password"><br />
+        <label for="confirm">Confirm Password:</label>
+        <input type="text" id="confirm"><br />
+        <label for="first">First name:</label>
+        <input type="text" id="first"><br />
+        <label for="last">Last name:</label>
+        <input type="text" id="last"><br />
+        <label for="email">Email:</label>
+        <input type="text" id="email"><br />
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone"><br />
+        <input type="submit" value="REGISTER"/>
+    </form>
+</body>
+</html>
+<script>
+    function TestSessionContinuity(id) {
+        $.ajax({
+            type: "GET",
+            accepts: "application/json",
+            url: "api/user" + "/" + id,
+            contentType: "application/json",
+            data: JSON.stringify(id),
+            success: function (result) {
+                alert(JSON.parse(result).Username);
+            },
+            error: function () {
+                alert("NE VALJA USER!");
+            }
+        });
+    }
+    function Login() {
+        var user = {
+            Username: document.getElementById("username").value,
+            Password: document.getElementById("password").value,
+        };
+        $.ajax({
+            type: "POST",
+            accepts: "application/json",
+            url: "api/login",
+            contentType: "application/json",
+            data: JSON.stringify(user),
+            success: function (result) {
+                TestSessionContinuity(JSON.parse(result).UserID);
+            },
+            error: function () {
+                alert("NE VALJA USER!");
+            }
+        });
+    }
+    function Register() {
+        var user = {
+            FirstName: document.getElementById("first").value,
+            LastName: document.getElementById("last").value,
+            Username: document.getElementById("username").value,
+            Email: document.getElementById("email").value,
+            Phone: document.getElementById("phone").value,
+            Password: document.getElementById("password").value,
+            ConfirmPassword: document.getElementById("confirm").value
+        };
+        $.ajax({
+            type: "POST",
+            accepts: "application/json",
+            url: "api/user",
+            contentType: "application/json",
+            data: JSON.stringify(user),
+            success: function (result) {
+                alert(JSON.parse(result).FirstName);
+            }
+        });
+    }
+    function TestFunc() {
+        var product = {
+            Name: "FFXV",
+            Developer: "SquareEnix",
+            Publisher: "SquareEnix",
+            Price: 60,
+            Description: "na na na",
+            ReleaseDate: new Date(2018, 1, 1)
+        };
+        $.ajax({
+            type: "POST",
+            accepts: "application/json",
+            url: "api/product",
+            contentType: "application/json",
+            data: JSON.stringify(product),
+            success: function (result) {
+                alert(JSON.parse(result).Developer);
+            },
+            error: function () {
+                alert("NE VALJA");
+            }
+        });
+    }
+</script>

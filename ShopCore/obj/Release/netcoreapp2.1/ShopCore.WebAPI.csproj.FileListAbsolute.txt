@@ -1,0 +1,14 @@
+C:\Users\Marin\source\repos\ShopCore\ShopCore\bin\Release\netcoreapp2.1\ShopCore.WebAPI.deps.json
+C:\Users\Marin\source\repos\ShopCore\ShopCore\bin\Release\netcoreapp2.1\ShopCore.WebAPI.runtimeconfig.json
+C:\Users\Marin\source\repos\ShopCore\ShopCore\bin\Release\netcoreapp2.1\ShopCore.WebAPI.runtimeconfig.dev.json
+C:\Users\Marin\source\repos\ShopCore\ShopCore\bin\Release\netcoreapp2.1\ShopCore.WebAPI.dll
+C:\Users\Marin\source\repos\ShopCore\ShopCore\bin\Release\netcoreapp2.1\ShopCore.WebAPI.pdb
+C:\Users\Marin\source\repos\ShopCore\ShopCore\obj\Release\netcoreapp2.1\ShopCore.WebAPI.csprojAssemblyReference.cache
+C:\Users\Marin\source\repos\ShopCore\ShopCore\obj\Release\netcoreapp2.1\ShopCore.WebAPI.csproj.CoreCompileInputs.cache
+C:\Users\Marin\source\repos\ShopCore\ShopCore\obj\Release\netcoreapp2.1\ShopCore.WebAPI.RazorAssemblyInfo.cache
+C:\Users\Marin\source\repos\ShopCore\ShopCore\obj\Release\netcoreapp2.1\ShopCore.WebAPI.RazorAssemblyInfo.cs
+C:\Users\Marin\source\repos\ShopCore\ShopCore\obj\Release\netcoreapp2.1\ShopCore.WebAPI.AssemblyInfoInputs.cache
+C:\Users\Marin\source\repos\ShopCore\ShopCore\obj\Release\netcoreapp2.1\ShopCore.WebAPI.AssemblyInfo.cs
+C:\Users\Marin\source\repos\ShopCore\ShopCore\obj\Release\netcoreapp2.1\ShopCore.WebAPI.RazorTargetAssemblyInfo.cache
+C:\Users\Marin\source\repos\ShopCore\ShopCore\obj\Release\netcoreapp2.1\ShopCore.WebAPI.dll
+C:\Users\Marin\source\repos\ShopCore\ShopCore\obj\Release\netcoreapp2.1\ShopCore.WebAPI.pdb

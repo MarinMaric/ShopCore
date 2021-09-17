@@ -1,0 +1,55 @@
+﻿#formWrapper {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    height: auto;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    background-color: #303030;
+    margin:0;
+    left:0px;
+    color:white;
+}
+
+#formWrapper > p {
+    color: white;
+}
+
+form {
+    display: table;
+    color: white;
+}
+
+p {
+    display: table-row;
+}
+
+label:not(#loginUname, #loginPass) {
+    display: table-cell;
+    margin: 2px;
+    text-align: left;
+    display: table-cell;
+}
+
+input, textarea:not(#submit){
+    width: 300px;
+    margin: 2px;
+    display: table-cell;
+}
+
+a{
+    display:table-cell;
+    color:white;
+}
+
+#loginUname, #loginPass {
+    text-align: left;
+}
+
+#register{
+    width:100px;
+}
+
+#data{
+    padding:2%;
+}

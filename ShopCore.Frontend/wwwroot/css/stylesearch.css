@@ -1,0 +1,50 @@
+﻿body {
+    background-color: #303030;
+}
+#search {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+#results{
+    position:absolute;
+    top:20%;
+}
+
+table {
+    position: absolute;
+    left: 0px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    width:100%;
+}
+
+table, table td{
+    border:none;
+    color: white;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+table td{
+    font-size: 20px;
+}
+
+.pic{
+    width: 75%;
+    height:auto;
+}
+
+img{
+    width: 100%;
+    cursor:pointer;
+}
+
+.first {
+    background-color: #303030;
+}
+.second {
+    background-color: #101010;
+}

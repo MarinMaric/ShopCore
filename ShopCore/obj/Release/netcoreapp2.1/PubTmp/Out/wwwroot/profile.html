@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ShopCore</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/stylemain.css">
+    <link rel="stylesheet" type="text/css" href="css/styleprofile.css">
+</head>
+<body>
+    <ul class="topnav" id="myTopnav">
+        <li><img id="logo" src="/Images/Basic/logo.png" /></li>
+        <li><a class="active" href="index.html">HOME</a></li>
+        <li><a href="search.html">BROWSE</a></li>
+        <li><a href="profile.html">PROFILE</a></li>
+        <li><a onclick="scroll()" href="#footer">ABOUT</a></li>
+    </ul>
+
+    <div id="profileWrapper">
+        <div id="avatar">
+            <center><img id="avatarimg" src=""></center>
+        </div>
+        <div id="data">
+            <p id="username"><b>Username:</b> </p>
+            <p id="first"><b>First Name:</b> </p>
+            <p id="last"><b>Last Name:</b> </p>
+            <p id="mail"><b>Email:</b> </p>
+
+            <form id="editForm" method="put" enctype="multipart/form-data" action="api/user">
+                <p>
+                    <label for="usernameinput"><b>Username: </b></label>
+                    <input type="text" name="" id="usernameinput"><br>
+                </p>
+                <p>
+                    <label for="firstinput"><b>First Name: </b></label>
+                    <input type="text" id="firstinput"><br>
+                </p>
+                <p>
+                    <label for="lastinput"><b>Last Name: </b></label>
+                    <input type="text" id="lastinput"><br>
+                </p>
+                <p>
+                    <label for="mailinput"><b>Email: </b></label>
+                    <input type="text" id="mailinput"><br>
+                </p>
+                <p>
+                    <label for="passinput"><b>Password: </b></label>
+                    <input type="password" id="passinput"><br>
+                </p>
+                <p>
+                    <label for="confirminput"><b>Confirm Password: </b></label>
+                    <input type="password" id="confirminput"><br>
+                </p>
+                <br>
+                <input type="submit" value="Submit"/>
+                <button onclick="CancelEditing()">Cancel</button>
+            </form>
+            <br><br>
+
+            <button onclick="ChangeLayout()">Edit Profile</button>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var editForm;
+    var parsed;
+
+    $(document).ready(function () {
+        editForm = $("#editForm");
+        $(editForm).hide();
+
+        var id = -1;
+        $.ajax({
+            type: "GET",
+            accepts: "application/json",
+            url: "api/user/" + id,
+            contentType: "application/json",
+            data: id,
+            success: function (result) {
+                parsed = JSON.parse(result);
+                if (parsed == null) {
+                    window.location.replace("login.html");
+                } else {
+                    $("#avatarimg").attr("src", parsed.Image);
+                    $("#username").append(parsed.Username);
+                    $("#first").append(parsed.FirstName);
+                    $("#last").append(parsed.LastName);
+                    $("#mail").append(parsed.Email);
+                }
+            }
+        });
+    });
+
+    var data;
+
+    function ChangeLayout() {
+        data = $("#data").children();
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].style.visibility = "visible")
+                $(data[i]).hide();
+        }
+        editForm.show();
+        alert(parsed.Username);
+        $("#usernameinput").val(parsed.Username);
+        $("#firstinput").val(parsed.FirstName);
+        $("#lastinput").val(parsed.LastName);
+        $("#mailinput").val(parsed.Email);
+    }
+</script>
